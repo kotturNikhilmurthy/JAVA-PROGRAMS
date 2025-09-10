@@ -1,0 +1,27 @@
+public class ThrowException3 {
+    static void validatelogin(String user,String password) {
+        if(!user.equals("admin")|| !password.equals("1234"))
+        {
+            throw new SecurityException("Invalid");
+        }
+        else
+        {
+            System.out.println("Valid login");
+        }
+    }
+    public static void main(String args[])
+    {
+        try {
+            validatelogin("admin","1111");
+        }
+        catch(SecurityException e){
+            System.out.println("Login failed: "+e.getMessage());
+        }
+        try {
+            validatelogin("admin","1234");
+        }
+        catch(SecurityException e){
+            System.out.println("Login succesfull: "+e.getMessage());
+        }
+    }
+}
