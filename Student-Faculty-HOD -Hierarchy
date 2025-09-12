@@ -1,0 +1,75 @@
+// Base class Person
+class Person {
+    String name;
+    int age;
+
+    // Constructor
+    Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Method to display details
+    void displayDetails() {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+    }
+}
+
+// Faculty class inherits from Person
+class Faculty extends Person {
+    String department;
+    String designation;
+
+    // Constructor
+    Faculty(String name, int age, String department, String designation) {
+        super(name, age); // Call Person constructor
+        this.department = department;
+        this.designation = designation;
+    }
+
+    // Overriding displayDetails method
+    @Override
+    void displayDetails() {
+        super.displayDetails();
+        System.out.println("Department: " + department);
+        System.out.println("Designation: " + designation);
+    }
+}
+
+// HOD class inherits from Faculty
+class HOD extends Faculty {
+    int noOfFaculty;  // Additional data member
+
+    // Constructor
+    HOD(String name, int age, String department, String designation, int noOfFaculty) {
+        super(name, age, department, designation); // Call Faculty constructor
+        this.noOfFaculty = noOfFaculty;
+    }
+
+    // Overriding displayDetails method
+    @Override
+    void displayDetails() {
+        super.displayDetails();
+        System.out.println("Number of Faculty under HOD: " + noOfFaculty);
+    }
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        // Creating objects
+        Person p = new Person("John Doe", 40);
+        Faculty f = new Faculty("Alice Smith", 35, "Computer Science", "Assistant Professor");
+        HOD h = new HOD("Dr. Robert", 50, "Computer Science", "Head of Department", 10);
+
+        System.out.println("=== Person Details ===");
+        p.displayDetails();
+
+        System.out.println("\n=== Faculty Details ===");
+        f.displayDetails();
+
+        System.out.println("\n=== HOD Details ===");
+        h.displayDetails();
+    }
+}
