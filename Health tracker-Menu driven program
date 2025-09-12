@@ -1,0 +1,73 @@
+// Interface 1: HealthTracker
+interface HealthTracker {
+    void trackSteps(int steps);
+    void monitorHeartRate(int bpm);
+
+    // Default method
+    default void start() {
+        System.out.println("Health tracking service is starting.");
+    }
+}
+
+// Interface 2: Notifier
+interface Notifier {
+    void sendNotification(String message);
+    void scheduleReminder(String time);
+
+    // Default method with the same name as in HealthTracker
+    default void start() {
+        System.out.println("Notification service is starting.");
+    }
+}
+
+// The SmartWatch class implements both interfaces
+class SmartWatch implements HealthTracker, Notifier {
+    // Implementing abstract methods from HealthTracker
+    @Override
+    public void trackSteps(int steps) {
+        System.out.println("Steps tracked: " + steps);
+    }
+
+    @Override
+    public void monitorHeartRate(int bpm) {
+        System.out.println("Current heart rate: " + bpm + " bpm");
+    }
+
+    // Implementing abstract methods from Notifier
+    @Override
+    public void sendNotification(String message) {
+        System.out.println("Notification sent: '" + message + "'");
+    }
+
+    @Override
+    public void scheduleReminder(String time) {
+        System.out.println("Reminder set for: " + time);
+    }
+
+    // Overriding the conflicting default 'start()' method
+    @Override
+    public void start() {
+        System.out.println("SmartWatch is starting up...");
+        // Optionally invoking the default methods from each interface
+        HealthTracker.super.start();
+        Notifier.super.start();
+        System.out.println("All services are now running.");
+    }
+}
+
+// Main class to demonstrate the SmartWatch functionality
+public class WearableTechDemo {
+    public static void main(String[] args) {
+        SmartWatch myWatch = new SmartWatch();
+
+        // Demonstrate the unified startup behavior
+        myWatch.start();
+        System.out.println("-------------------------------------");
+
+        // Demonstrate other functionalities
+        myWatch.trackSteps(5280);
+        myWatch.monitorHeartRate(75);
+        myWatch.sendNotification("Your ride is arriving!");
+        myWatch.scheduleReminder("10:00 PM");
+    }
+}
