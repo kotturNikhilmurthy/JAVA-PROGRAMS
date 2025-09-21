@@ -1,0 +1,53 @@
+import java.util.Scanner;
+
+// Custom Exception
+class InsufficientBalanceException extends Exception {
+    public InsufficientBalanceException(String message) {
+        super(message);
+    }
+}
+
+class ATM {
+    private double balance;
+    private int pin;
+
+    public ATM(double balance, int pin) {
+        this.balance = balance;
+        this.pin = pin;
+    }
+
+    public void withdraw(double amount, int enteredPin)
+            throws InsufficientBalanceException, SecurityException {
+
+        if (enteredPin != pin) {
+            throw new SecurityException("Incorrect PIN entered!");
+        }
+
+        if (amount > balance) {
+            throw new InsufficientBalanceException("Insufficient Balance! Available: " + balance);
+        }
+
+        balance -= amount;
+        System.out.println("Withdrawal successful. Remaining Balance: " + balance);
+    }
+}
+
+public class ATMApp {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        ATM atm = new ATM(5000, 1234); // starting balance, PIN
+
+        System.out.print("Enter PIN: ");
+        int enteredPin = sc.nextInt();
+        System.out.print("Enter amount to withdraw: ");
+        double amount = sc.nextDouble();
+
+        try {
+            atm.withdraw(amount, enteredPin);
+        } catch (SecurityException se) {
+            System.out.println("Security Alert: " + se.getMessage());
+        } catch (InsufficientBalanceException ibe) {
+            System.out.println("Transaction Failed: " + ibe.getMessage());
+        }
+    }
+}
