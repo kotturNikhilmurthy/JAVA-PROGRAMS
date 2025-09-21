@@ -1,0 +1,74 @@
+// Custom Exception when book copies are not available
+class BookNotAvailableException extends Exception {
+    public BookNotAvailableException(String message) {
+        super(message);
+    }
+}
+
+// Custom Exception when user already borrowed 3 or more books
+class LimitExceededException extends Exception {
+    public LimitExceededException(String message) {
+        super(message);
+    }
+}
+
+class Book {
+    String title;
+    int copies;
+
+    Book(String title, int copies) {
+        this.title = title;
+        this.copies = copies;
+    }
+}
+
+class User {
+    String name;
+    int borrowedBooks;
+
+    User(String name) {
+        this.name = name;
+        this.borrowedBooks = 0;
+    }
+}
+
+class Library {
+    public void borrowBook(User user, Book book)
+            throws BookNotAvailableException, LimitExceededException {
+
+        if (book.copies <= 0) {
+            throw new BookNotAvailableException("Sorry, '" + book.title + "' is not available now.");
+        }
+
+        if (user.borrowedBooks >= 3) {
+            throw new LimitExceededException(user.name + " has already borrowed 3 books. Cannot borrow more.");
+        }
+
+        // Allow borrowing
+        user.borrowedBooks++;
+        book.copies--;
+        System.out.println(user.name + " successfully borrowed '" + book.title + "'.");
+        System.out.println("Remaining copies of '" + book.title + "': " + book.copies);
+    }
+}
+
+public class LibraryApp {
+    public static void main(String[] args) {
+        User user = new User("Nikhil");
+        Book book = new Book("Java Programming", 1); // 1 copy available
+        Library library = new Library();
+
+        // Try to borrow multiple times
+        for (int i = 0; i < 4; i++) {
+            try {
+                library.borrowBook(user, book);
+            } catch (BookNotAvailableException bna) {
+                System.out.println("Transaction Failed: " + bna.getMessage());
+            } catch (LimitExceededException lee) {
+                System.out.println("Transaction Failed: " + lee.getMessage());
+            } finally {
+                System.out.println("Transaction Completed.\n");
+            }
+        }
+    }
+}
