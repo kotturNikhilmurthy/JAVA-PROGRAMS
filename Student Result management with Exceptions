@@ -1,0 +1,40 @@
+import java.util.Scanner;
+
+// Custom exception for invalid marks
+class InvalidMarksException extends Exception {
+    public InvalidMarksException(String message) {
+        super(message);
+    }
+}
+
+public class StudentResult {
+    // Method to calculate grade
+    static char calculateGrade(int marks) throws InvalidMarksException {
+        if (marks < 0 || marks > 100) {
+            throw new InvalidMarksException("Marks must be between 0 and 100!");
+        }
+
+        if (marks >= 90) return 'A';
+        else if (marks >= 75) return 'B';
+        else if (marks >= 50) return 'C';
+        else return 'F'; // fail
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter marks (out of 100): ");
+        int marks = sc.nextInt();
+
+        try {
+            char grade = calculateGrade(marks);
+            if (grade == 'F')
+                System.out.println("Result: FAIL");
+            else
+                System.out.println("Grade: " + grade);
+        } catch (InvalidMarksException ime) {
+            System.out.println("Error: " + ime.getMessage());
+        } finally {
+            System.out.println("Result processed."); // Always executes
+        }
+    }
+}
